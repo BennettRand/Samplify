@@ -40,7 +40,7 @@ class UnitError(ValueError):
 class PrefixError(ValueError):
 	pass
 
-
+_PF_PRIME = 19
 class BaseUnits:
 	_ = Fraction(1)
 	m = Fraction(2)
@@ -50,7 +50,7 @@ class BaseUnits:
 	K = Fraction(11)
 	mol = Fraction(13)
 	cd = Fraction(17)
-	PF = Fraction(19)
+	PF = Fraction(_PF_PRIME)
 
 class DerivedUnits:
 	Hz = Fraction(BaseUnits._, BaseUnits.s)
@@ -59,12 +59,17 @@ class DerivedUnits:
 	J = Fraction(N * BaseUnits.m, BaseUnits._)
 	W = Fraction(J, BaseUnits.s)
 	V = Fraction(W, BaseUnits.A * BaseUnits.PF)
-
+	VA = Fraction(W, BaseUnits.PF)
 
 def model_dc_power():
 	BaseUnits.PF = BaseUnits._
 	DerivedUnits.V = Fraction(DerivedUnits.W, BaseUnits.A)
-	DerivedUnits.__dict__['VA'] = Fraction(BaseUnits.A, DerivedUnits.V)
+	DerivedUnits.__dict__['VA'] = BaseUnits._
+
+def model_ac_power():
+	BaseUnits.PF = Fraction(_PF_PRIME)
+	DerivedUnits.V = Fraction(DerivedUnits.W, BaseUnits.A * BaseUnits.PF)
+	DerivedUnits.__dict__['VA'] = Fraction(DerivedUnits.W, BaseUnits.PF)
 
 
 def significant(x, sig=2):
@@ -273,7 +278,6 @@ class Measure:
 
 
 if __name__ == "__main__":
-	model_dc_power()
 	count = Measure(5)
 	distance = Measure(8, 'k', BaseUnits.m)
 	mass = Measure(13, unit=BaseUnits.g)
@@ -286,9 +290,23 @@ if __name__ == "__main__":
 	speed = distance / time_
 	print "speed", speed
 	acceleration = distance / (time_ ** 2)
-	acceleration2 = (Measure(1) / (time_ ** 2)) * distance
+	acceleration2 = (1 / (time_ ** 2)) * distance
 	print "acceleration", acceleration
 	print "acceleration2", acceleration2
 	print "acceleration == acceleration2 ", acceleration == acceleration2
 	frequency = 100 / time_
 	print "frequency", frequency
+
+	current = Measure(5, unit = BaseUnits.A)
+	voltage = Measure(240, unit = DerivedUnits.V)
+	pf = Measure(.98, unit = BaseUnits.PF)
+	power = current * voltage * pf
+	print power
+	model_dc_power()
+	current = Measure(5, unit = BaseUnits.A)
+	voltage = Measure(240, unit = DerivedUnits.V)
+	power = current * voltage
+	print power
+	print power * Measure(1, unit=BaseUnits.PF)
+	model_ac_power()
+	print power

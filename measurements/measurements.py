@@ -201,7 +201,7 @@ class Measure:
 		return not(self == other)
 
 	def __add__(self,other):
-		if not isinstance(other, Measure):
+		if not isinstance(other, (Measure, NonStandard)):
 			other = Measure(other)
 		lhs = self.to_base_prefix()
 		rhs = other.to_base_prefix()
@@ -218,7 +218,7 @@ class Measure:
 		return Measure(other) + self
 
 	def __sub__(self,other):
-		if not isinstance(other, Measure):
+		if not isinstance(other, (Measure, NonStandard)):
 			other = Measure(other)
 		if self.unit != other.unit:
 			raise UnitError("Incompatible units")
@@ -229,7 +229,7 @@ class Measure:
 		return Measure(other) + -self
 
 	def __mul__(self,other):
-		if not isinstance(other, Measure):
+		if not isinstance(other, (Measure, NonStandard)):
 			other = Measure(other)
 		lhs = self.to_base_prefix()
 		rhs = other.to_base_prefix()
@@ -244,7 +244,7 @@ class Measure:
 		return Measure(other) * self
 
 	def __div__(self,other):
-		if not isinstance(other, Measure):
+		if not isinstance(other, (Measure, NonStandard)):
 			other = Measure(other)
 		return self * ~other
 
@@ -276,11 +276,63 @@ class Measure:
 					  unit, sig=self.sig)
 
 
-class ImperialDistance(object):
+class NonStandard(object):
+	def __init__(self, unit=None):
+		self._value = Measure(0, unit=unit)
+
+	def to_base_prefix(self):
+		return self._value.to_base_prefix()
+
+	@property
+	def metric(self):
+		return self._value
+
+	@metric.setter
+	def metric(self, value):
+		self._value = value
+
+	@property
+	def sig(self):
+		return self.metric.sig
+
+	@property
+	def unit(self):
+		return self.metric.unit
+
+	def __add__(self, other):
+		ret = self.__class__()
+		ret.metric = (self.to_base_prefix() + other.to_base_prefix())
+		return ret
+
+	def __pos__(self): return self
+
+	def __neg__(self):
+		ret = self.__class__()
+		ret.metric = -self.metric
+		return ret
+
+	def __sub__(self, other):
+		return self + -other
+
+	def __mul__(self, other):
+		ret = self.__class__()
+		ret.metric = (self.to_base_prefix() * other.to_base_prefix())
+		return ret
+
+	def __invert__(self):
+		ret = self.__class__()
+		ret.metric = ~self.metric
+		return ret
+
+	def __div__(self, other):
+		return self * ~other
+
+
+class ImperialDistance(NonStandard):
 	M_PER_YARD = 0.9144
 	def __init__(self, thous=0, inches=0, feet=0, yards=0, chains=0, furlongs=0,
 				 miles=0):
-		self._value = Measure(0, unit=BaseUnits.m)
+		NonStandard.__init__(self, BaseUnits.m)
 		self.yards = yards
 		self.feet += feet
 		self.inches += inches
@@ -288,9 +340,6 @@ class ImperialDistance(object):
 		self.chains += chains
 		self.furlongs += furlongs
 		self.miles += miles
-
-	def to_base_prefix(self):
-		return self._value.to_base_prefix()
 
 	@property
 	def yards(self):
@@ -370,10 +419,4 @@ if __name__ == "__main__":
 	print "frequency", frequency
 
 	yard = ImperialDistance(yards = 1)
-	print yard.thous
-	print yard.inches
-	print yard.feet
-	print yard.yards
-	print yard.chains
-	print yard.furlongs
-	print yard.miles
+	print (yard-yard).metric

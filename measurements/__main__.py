@@ -1,7 +1,7 @@
 from . import *
 from si import *
 
-if __name__ == "__main__":
+def examples():
 	count = Measure(5)
 	distance = Measure(8, 'k', BaseUnits.m)
 	mass = Measure(13, unit=BaseUnits.g)
@@ -23,3 +23,7 @@ if __name__ == "__main__":
 
 	yard = ImperialDistance(yards = 1)
 	print (yard-yard).metric
+	return
+
+if __name__ == "__main__":
+	examples()

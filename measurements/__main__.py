@@ -1,5 +1,6 @@
 from . import *
 from si import *
+from imperial import *
 
 def examples():
 	count = Measure(5)

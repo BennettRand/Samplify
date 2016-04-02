@@ -8,7 +8,7 @@ class Energy(NonStandard):
 		self.watthours += watthours
 		self.kilowatthours += kilowatthours
 		self.electronvolts += electronvolts
-		# self.calories += calories
+		self.calories += calories
 
 	@property
 	def joules(self):
@@ -41,3 +41,11 @@ class Energy(NonStandard):
 	@electronvolts.setter
 	def electronvolts(self, ev):
 		self.metric = Measure(ev * 0.160217733, 'a', DerivedUnits.J)
+
+	@property
+	def calories(self):
+		return self.joules / 4.184
+
+	@calories.setter
+	def calories(self, c):
+		self.joules = c * 4.184

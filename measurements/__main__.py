@@ -33,6 +33,8 @@ def examples():
 	print Energy(kilowatthours = 1).watthours
 	print Energy(electronvolts = 1000).joules
 	print Energy(joules = 1).electronvolts
+	print Energy(joules = 1).calories
+	print Energy(kilowatthours = 1).calories
 
 	return
 

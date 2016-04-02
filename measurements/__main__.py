@@ -1,6 +1,7 @@
 from . import *
 from si import *
 from imperial import *
+from energy import *
 
 def examples():
 	count = Measure(5)
@@ -9,6 +10,7 @@ def examples():
 	time_ = Measure(19, unit=BaseUnits.s)
 	current = Measure(1.2, unit=BaseUnits.A)
 	print "distance", distance
+	print "distance meters", distance.to_prefix()
 	print "mass", mass
 	print "time_", time_
 	print "current", current
@@ -24,6 +26,14 @@ def examples():
 
 	yard = ImperialDistance(yards = 1)
 	print (yard-yard).metric
+
+	print Energy(joules = 1).watthours
+	print Energy(watthours = 1).joules
+	print Energy(kilowatthours = 1).joules
+	print Energy(kilowatthours = 1).watthours
+	print Energy(electronvolts = 1000).joules
+	print Energy(joules = 1).electronvolts
+
 	return
 
 if __name__ == "__main__":

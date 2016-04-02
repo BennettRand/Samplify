@@ -98,7 +98,7 @@ def get_factors(i):
 	for f in unit_list:
 		while i % f == 0:
 			ret[f] += 1
-			i /= f
+			i //= f
 
 	return ret
 
@@ -135,9 +135,12 @@ class Measure:
 		else:
 			self.unit = Fraction(unit)
 
+	def to_prefix(self, prefix=None):
+		baseval = self.value * (10 ** (self.prefix[0] - PREFIXES[prefix][0]))
+		return Measure(baseval, prefix, self.unit, self.sig)
+
 	def to_base_prefix(self):
-		baseval = self.value * (10 ** self.prefix[0])
-		return Measure(baseval, unit=self.unit, sig=self.sig)
+		return self.to_prefix()
 
 	def binarize(self):
 		return self.BIN_STRUCT.pack(self.value, self.prefix[0],
@@ -320,4 +323,3 @@ class NonStandard(object):
 
 	def __div__(self, other):
 		return self * ~other
-		

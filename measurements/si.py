@@ -156,6 +156,8 @@ class Measure:
 	def from_binary(bin_str):
 		val, pre, num, den = Measure.BIN_STRUCT.unpack(bin_str)
 
+		return Measure(val, REV_OFFSET[pre][1], Fraction(num, den))
+
 	@staticmethod
 	def from_json(json_str):
 		vals = json.loads(json_str)

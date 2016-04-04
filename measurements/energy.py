@@ -2,13 +2,15 @@ from si import *
 
 class Energy(NonStandard):
 	def __init__(self, joules=0, watthours=0, kilowatthours=0, electronvolts=0,
-				 calories=0):
+				 calories=0, btu_iso=0, btu_15=0):
 		NonStandard.__init__(self, DerivedUnits.J)
 		self.joules = joules
 		self.watthours += watthours
 		self.kilowatthours += kilowatthours
 		self.electronvolts += electronvolts
 		self.calories += calories
+		self.btu_iso += btu_iso
+		self.btu_15 += btu_15
 
 	@property
 	def joules(self):
@@ -49,3 +51,19 @@ class Energy(NonStandard):
 	@calories.setter
 	def calories(self, c):
 		self.joules = c * 4.184
+
+	@property
+	def btu_iso(self):
+		return self.joules / 1055.056
+
+	@btu_iso.setter
+	def btu_iso(self, b):
+		self.joules = b * 1055.056
+
+	@property
+	def btu_15(self):
+		return self.joules / 1054.804
+
+	@btu_15.setter
+	def btu_15(self, b):
+		self.joules = b * 1054.804

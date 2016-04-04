@@ -274,6 +274,34 @@ class Measure:
 		return Measure(1.0/self.value, REV_OFFSET[-self.prefix[0]][1],
 					  unit, sig=self.sig)
 
+	def __lt__(self, other):
+		if not isinstance(other, (Measure, NonStandard)):
+			other = Measure(other)
+		lhs = self.to_base_prefix()
+		rhs = other.to_base_prefix()
+
+		if lhs.unit != rhs.unit:
+			raise UnitError("Incompatible units")
+
+		return lhs.value < rhs.value
+
+	def __le__(self, other):
+		return self < other or self == other
+
+	def __gt__(self, other):
+		if not isinstance(other, (Measure, NonStandard)):
+			other = Measure(other)
+		lhs = self.to_base_prefix()
+		rhs = other.to_base_prefix()
+
+		if lhs.unit != rhs.unit:
+			raise UnitError("Incompatible units")
+
+		return lhs.value > rhs.value
+
+	def __ge__(self, other):
+		return self > other or self == other
+
 
 class NonStandard(object):
 	def __init__(self, unit=None):
@@ -325,3 +353,21 @@ class NonStandard(object):
 
 	def __div__(self, other):
 		return self * ~other
+
+	def __eq__(self, other):
+		return self.metric == other.metric
+
+	def __ne__(self, other):
+		return self.metric != other.metric
+
+	def __lt__(self, other):
+		return self.metric < other.metric
+
+	def __le__(self, other):
+		return self.metric <= other.metric
+
+	def __gt__(self, other):
+		return self.metric > other.metric
+
+	def __ge__(self, other):
+		return self.metric >= other.metric

@@ -22,7 +22,7 @@ class Timeseries(object):
 			timestamp = datetime.datetime.utcnow()
 		elif isinstance(timestamp, (int,float)):
 			timestamp = datetime.datetime.utcfromtimestamp(timestamp)
-		elif isinstace(timestamp, datetime.datetime):
+		elif isinstance(timestamp, datetime.datetime):
 			pass
 		else:
 			raise TypeError("Not a datetime, int, or float type")
@@ -102,5 +102,18 @@ class Timeseries(object):
 
 		return ret
 
+	def valueslice(self, i, j):
+		ret = Timeseries()
+
+
+		for ts, m in self.datapoints:
+			if i < m < j:
+				ret.append(m, ts)
+
+		return ret
+
 	def __getitem__(self, i):
 		return self.datapoints[i]
+
+	def __len__(self):
+		return self.length

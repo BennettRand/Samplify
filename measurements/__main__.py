@@ -23,6 +23,18 @@ def examples():
 	print "current", current
 	speed = distance / time_
 	print "speed", speed
+	print "2 x speed > speed", 2 * speed > speed
+	# print "2 x speed >= speed", 2 * speed >= speed
+	# print "2 x speed < speed", 2 * speed < speed
+	# print "2 x speed <= speed", 2 * speed <= speed
+	# print "speed > speed x 2", speed > speed * 2
+	print "speed >= speed x 2", speed >= speed * 2
+	# print "speed < speed x 2", speed < speed * 2
+	# print "speed <= speed x 2", speed <= speed * 2
+	# print "speed > speed", speed > speed
+	# print "speed >= speed", speed >= speed
+	print "speed < speed", speed < speed
+	# print "speed <= speed", speed <= speed
 	acceleration = distance / (time_ ** 2)
 	acceleration2 = (1 / (time_ ** 2)) * distance
 	print "acceleration", acceleration
@@ -34,6 +46,9 @@ def examples():
 	print "ImperialDistance".center(60, '-')
 	yard = ImperialDistance(yards = 1)
 	print "2 yards =", (yard+yard).metric
+	print "2 yards =", (yard+yard).miles, "miles"
+	print "2 yards > yard", (yard + yard) > yard
+	print "2 yards < yard", (yard + yard) < yard
 
 	print "Energy".center(60, '-')
 	print "1 J =", Energy(joules = 1).watthours, "wh"
@@ -47,7 +62,8 @@ def examples():
 
 	print "Timeseries".center(60, '-')
 	ts = Timeseries()
-	sampcnt = 100000
+	sampcnt = 100
+	print "Generating {} samples...".format(sampcnt)
 	for _ in xrange(sampcnt):
 		ts.append(Energy(kilowatthours=random.uniform(0.0, 100.0)+1000))
 		if _ % (sampcnt // 40) == 0:
@@ -61,10 +77,10 @@ def examples():
 	bz2_t = time.time()
 	cmpdat2 = ts.compress()
 	bz2_t = time.time() - bz2_t
-	cmpperc = float(len(cmpdat))/len(bindat)
-	cmpperc2 = float(len(cmpdat2))/len(bindat)
+	cmpperc = float(len(cmpdat)) / len(bindat) * 100.0
+	cmpperc2 = float(len(cmpdat2)) / len(bindat) * 100.0
 	strdat = ts.stringify()
-	strperc = float(len(cmpdat))/len(strdat)
+	strperc = float(len(cmpdat)) / len(strdat) * 100.0
 
 	print "The following is based on {} samples".format(sampcnt).center(60, '-')
 	print "Zlib Compression reduced data to {:.4f}% binary size".format(cmpperc)
@@ -77,7 +93,27 @@ def examples():
 	from_string = Timeseries.destringify(strdat)
 	ds_t = time.time() - ds_t
 	print "Destringify took {} seconds".format(ds_t)
-	print from_string[200][0], from_string[200][1]
+	print random.choice(from_string)[0], random.choice(from_string)[1]
+
+	pt_a = random.choice(from_string)
+	pt_b = random.choice(from_string)
+
+	from_a_to_b = from_string.timeslice(min(pt_a[0], pt_b[0]),
+										max(pt_a[0], pt_b[0]))
+
+	print "There are {} datapoints between {} and {}."\
+		  .format(from_a_to_b.length,min(pt_a[0], pt_b[0]),
+				  max(pt_a[0], pt_b[0]))
+
+	pt_a = random.choice(from_string)
+	pt_b = random.choice(from_string)
+
+	from_a_to_b = from_string.valueslice(min(pt_a[1], pt_b[1]),
+										 max(pt_a[1], pt_b[1]))
+
+	print "There are {} datapoints between {} and {}."\
+		  .format(from_a_to_b.length,min(pt_a[1], pt_b[1]),
+				  max(pt_a[1], pt_b[1]))
 
 	return
 

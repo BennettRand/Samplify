@@ -31,8 +31,8 @@ PREFIXES = {
 	'y': (-24,'yocto')
 }
 
-REV_PREFIX = dict([(k[1], (k[0], v)) for v, k in PREFIXES.iteritems()])
-REV_OFFSET = dict([(k[0], (k[1], v)) for v, k in PREFIXES.iteritems()])
+REV_PREFIX = dict([(k[1], (k[0], v)) for v, k in PREFIXES.items()])
+REV_OFFSET = dict([(k[0], (k[1], v)) for v, k in PREFIXES.items()])
 
 _PF_PRIME = 19
 class BaseUnits:

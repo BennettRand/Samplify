@@ -5,5 +5,4 @@ python:
 # command to install dependencies
 # install: "pip install -r requirements.txt"
 # command to run tests
-script: python2 -3 -m measurements.test
-script: python3 -m measurements.test 
+script: python -m measurements.test

@@ -1,9 +1,6 @@
 import sys
 import unittest
 
-if __name__ == "__main__":
-	sys.path.append("./")
-
 from measurements import si
 from measurements import imperial
 

@@ -16,7 +16,7 @@ class ImperialDistance(NonStandard):
 
 	@property
 	def yards(self):
-		return self._value.value / self.M_PER_YARD
+		return (self._value.to_base_prefix().value / self.M_PER_YARD)
 
 	@yards.setter
 	def yards(self, y):

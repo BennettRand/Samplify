@@ -118,6 +118,12 @@ def describe_unit(u):
 
 	return ret
 
+def unit_find(u):
+	try:
+		unit = find_unit_string(u)
+	except UnitError:
+		unit = describe_unit(u)
+	return unit
 
 class Measure:
 	BIN_STRUCT = struct.Struct("!dbII")
@@ -173,15 +179,12 @@ class Measure:
 		if prefix is None:
 			prefix = ''
 
-		try:
-			unit = find_unit_string(self.unit)
-		except UnitError:
-			unit = describe_unit(self.unit)
+		unit = unit_find(self.unit)
 
 		return "{} {}{}".format(self.value, prefix, unit)
 
 	def __eq__(self,other):
-		if not isinstance(other, Measure):
+		if not isinstance(other, (Measure, NonStandard)):
 			other = Measure(other)
 		lhs = self.to_base_prefix()
 		rhs = other.to_base_prefix()
@@ -192,7 +195,7 @@ class Measure:
 		return lhs.value == rhs.value
 
 	def __ne__(self,other):
-		if not isinstance(other, Measure):
+		if not isinstance(other, (Measure, NonStandard)):
 			other = Measure(other)
 		if self.unit != other.unit:
 			raise UnitError("Incompatible units")
@@ -301,6 +304,10 @@ class Measure:
 
 	def __ge__(self, other):
 		return self > other or self == other
+
+	@property
+	def metric(self):
+		return self
 
 
 class NonStandard(object):

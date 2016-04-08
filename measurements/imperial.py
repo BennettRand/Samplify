@@ -1,4 +1,4 @@
-from si import *
+from .si import *
 
 
 class ImperialDistance(NonStandard):

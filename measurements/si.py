@@ -133,7 +133,7 @@ class Measure:
 
 		try:
 			self.prefix = PREFIXES[prefix]
-		except KeyError, e:
+		except KeyError as e:
 			raise PrefixError("Invalid SI Prefix", prefix)
 
 		if unit is None:

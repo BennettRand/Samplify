@@ -97,7 +97,7 @@ class Timeseries(object):
 		ret = Timeseries()
 
 		for ts, m in self.datapoints:
-			if i < ts < j:
+			if i <= ts < j:
 				ret.append(m, ts)
 
 		return ret
@@ -105,9 +105,8 @@ class Timeseries(object):
 	def valueslice(self, i, j):
 		ret = Timeseries()
 
-
 		for ts, m in self.datapoints:
-			if i < m < j:
+			if i <= m < j:
 				ret.append(m, ts)
 
 		return ret

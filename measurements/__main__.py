@@ -8,6 +8,7 @@ from si import *
 from imperial import *
 from energy import *
 from timeseries import *
+import util
 
 def examples():
 	print "SI".center(60, '-')
@@ -62,10 +63,12 @@ def examples():
 
 	print "Timeseries".center(60, '-')
 	ts = Timeseries()
-	sampcnt = 100
+	sampcnt = 10000
 	print "Generating {} samples...".format(sampcnt)
+	power_read = 1000.0
 	for _ in xrange(sampcnt):
-		ts.append(Energy(kilowatthours=random.uniform(0.0, 100.0)+1000))
+		power_read = max(power_read + random.uniform(-10.0,10.0), 0.0)
+		ts.append(Energy(kilowatthours=power_read))
 		if _ % (sampcnt // 40) == 0:
 			print ".",
 	print ""
@@ -115,6 +118,8 @@ def examples():
 		  .format(from_a_to_b.length,min(pt_a[1], pt_b[1]),
 				  max(pt_a[1], pt_b[1]))
 
+
+	util.plot_timeseries_with_pyplot(from_string)
 	return
 
 if __name__ == "__main__":

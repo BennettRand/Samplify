@@ -183,6 +183,8 @@ class Measure:
 
 		return "{} {}{}".format(self.value, prefix, unit)
 
+	__repr__ = __str__
+
 	def __eq__(self,other):
 		if not isinstance(other, (Measure, NonStandard)):
 			other = Measure(other)

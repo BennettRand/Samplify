@@ -6,7 +6,7 @@ import base64
 import datetime
 
 # from . import *
-from si import *
+from .si import *
 
 _EPOCH = datetime.datetime.utcfromtimestamp(0)
 

@@ -1,4 +1,4 @@
-from si import *
+from .si import *
 
 class Energy(NonStandard):
 	def __init__(self, joules=0, watthours=0, kilowatthours=0, electronvolts=0,

@@ -1,5 +1,6 @@
 import unittest
 
+from measurements import *
 from measurements import si
 from measurements import imperial
 from measurements import energy
@@ -45,6 +46,43 @@ class SITest(unittest.TestCase):
 		self.assertLess(one, ten)
 		self.assertLessEqual(one, ten)
 		self.assertLessEqual(ten, ten)
+
+	def test_unit_math(self):
+		G = si.Measure(9.81, unit=si.BaseUnits.m) /\
+					   (si.Measure(1, unit=si.BaseUnits.s) ** 2)
+		dist = si.Measure(49.05, unit=si.BaseUnits.m)
+		time_ = si.Measure(5, 'd', unit=si.BaseUnits.s)
+		time2 = si.Measure(10, unit=si.BaseUnits.s)
+		speed1 = G * time2
+		speed2 = dist / time_
+		volts = si.Measure(120, unit=si.DerivedUnits.V)
+		amps = si.Measure(2, unit=si.BaseUnits.A)
+		powerfactor = si.Measure(9, 'd', unit=si.BaseUnits.PF)
+		newton = si.Measure(1, unit=si.DerivedUnits.N)
+		power = (newton * dist) / time2
+		voltamps = volts * amps
+		power2 = voltamps * powerfactor
+
+		self.assertEqual(speed1, speed2)
+
+		with self.assertRaises(UnitError):
+			_ = time_ + dist
+
+		with self.assertRaises(UnitError):
+			_ = dist - G
+
+		_ = time_ + time2
+		self.assertEqual(_.unit, si.BaseUnits.s)
+
+		_ = speed1 + speed2
+		self.assertEqual(_.unit, si.BaseUnits.m / si.BaseUnits.s)
+
+		self.assertEqual(power.unit, power2.unit)
+		self.assertEqual(power.unit, si.DerivedUnits.W)
+		self.assertEqual(voltamps.unit, si.DerivedUnits.VA)
+		self.assertNotEqual(power.unit, si.DerivedUnits.VA)
+
+		return
 
 	def tearDown(self):
 		return

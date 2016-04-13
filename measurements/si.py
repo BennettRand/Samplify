@@ -174,14 +174,17 @@ class Measure:
 
 		return Measure(val, REV_OFFSET[pre][1], Fraction(num, den))
 
-	def __str__(self):
+	def pre_str(self):
 		prefix = REV_PREFIX[self.prefix[1]][1]
 		if prefix is None:
 			prefix = ''
+		return prefix
+
+	def __str__(self):
 
 		unit = unit_find(self.unit)
 
-		return "{} {}{}".format(self.value, prefix, unit)
+		return "{} {}{}".format(self.value, self.pre_str(), unit)
 
 	__repr__ = __str__
 

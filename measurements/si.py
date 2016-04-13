@@ -255,6 +255,8 @@ class Measure:
 			other = Measure(other)
 		return self * ~other
 
+	__truediv__ = __div__
+
 	def __rdiv__(self, other):
 		return Measure(other) * ~self
 
@@ -365,6 +367,8 @@ class NonStandard(object):
 
 	def __div__(self, other):
 		return self * ~other
+
+	__truediv__ = __div__
 
 	def __eq__(self, other):
 		return self.metric == other.metric

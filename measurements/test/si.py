@@ -84,6 +84,47 @@ class SITest(unittest.TestCase):
 
 		return
 
+	def test_unit_strings(self):
+		self.assertEqual(si.find_unit_string(si.BaseUnits._), '')
+		self.assertEqual(si.find_unit_string(si.BaseUnits.m), 'm')
+		self.assertEqual(si.find_unit_string(si.BaseUnits.g), 'g')
+		self.assertEqual(si.find_unit_string(si.BaseUnits.s), 's')
+		self.assertEqual(si.find_unit_string(si.BaseUnits.A), 'A')
+		self.assertEqual(si.find_unit_string(si.BaseUnits.K), 'K')
+		self.assertEqual(si.find_unit_string(si.BaseUnits.mol), 'mol')
+		self.assertEqual(si.find_unit_string(si.BaseUnits.cd), 'cd')
+		self.assertEqual(si.find_unit_string(si.BaseUnits.PF), 'PF')
+		self.assertEqual(si.find_unit_string(si.DerivedUnits.Hz), 'Hz')
+		self.assertEqual(si.find_unit_string(si.DerivedUnits.N), 'N')
+		self.assertEqual(si.find_unit_string(si.DerivedUnits.J), 'J')
+		self.assertEqual(si.find_unit_string(si.DerivedUnits.W), 'W')
+		self.assertEqual(si.find_unit_string(si.DerivedUnits.V), 'V')
+		self.assertEqual(si.find_unit_string(si.DerivedUnits.VA), 'VA')
+		self.assertEqual(si.describe_unit(si.BaseUnits._),
+						 si.find_unit_string(si.BaseUnits._))
+		self.assertEqual(si.describe_unit(si.BaseUnits.m),
+						 si.find_unit_string(si.BaseUnits.m))
+		self.assertEqual(si.describe_unit(si.BaseUnits.g),
+						 si.find_unit_string(si.BaseUnits.g))
+		self.assertEqual(si.describe_unit(si.BaseUnits.s),
+						 si.find_unit_string(si.BaseUnits.s))
+		self.assertEqual(si.describe_unit(si.BaseUnits.A),
+						 si.find_unit_string(si.BaseUnits.A))
+		self.assertEqual(si.describe_unit(si.BaseUnits.K),
+						 si.find_unit_string(si.BaseUnits.K))
+		self.assertEqual(si.describe_unit(si.BaseUnits.mol),
+						 si.find_unit_string(si.BaseUnits.mol))
+		self.assertEqual(si.describe_unit(si.BaseUnits.cd),
+						 si.find_unit_string(si.BaseUnits.cd))
+		self.assertEqual(si.describe_unit(si.BaseUnits.PF),
+						 si.find_unit_string(si.BaseUnits.PF))
+		self.assertEqual(si.describe_unit(si.DerivedUnits.Hz), 's^-1')
+		self.assertEqual(si.describe_unit(si.DerivedUnits.N), 'mgs^2')
+		self.assertEqual(si.describe_unit(si.DerivedUnits.J), 'm^2gs^2')
+		self.assertEqual(si.describe_unit(si.DerivedUnits.W), 'm^2gs')
+		self.assertEqual(si.describe_unit(si.DerivedUnits.V), 'PF^-1m^2gsA^-1')
+		self.assertEqual(si.describe_unit(si.DerivedUnits.VA), 'PF^-1m^2gs')
+
 	def tearDown(self):
 		return
 

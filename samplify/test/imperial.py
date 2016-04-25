@@ -1,8 +1,8 @@
 import sys
 import unittest
 
-from measurements import si
-from measurements import imperial
+from samplify import si
+from samplify import imperial
 
 class ImperialTest(unittest.TestCase):
 	def setUp(self):

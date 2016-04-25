@@ -1,9 +1,9 @@
 import unittest
 
-from measurements import *
-from measurements import si
-from measurements import imperial
-from measurements import energy
+from samplify import *
+from samplify import si
+from samplify import imperial
+from samplify import energy
 
 class SITest(unittest.TestCase):
 	def setUp(self):

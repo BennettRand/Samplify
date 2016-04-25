@@ -1,6 +1,6 @@
-# Measurements
+# Samplify
 
-[![Build Status](https://travis-ci.org/BennettRand/Measurements.svg?branch=master)](https://travis-ci.org/BennettRand/Measurements)
+[![Build Status](https://travis-ci.org/BennettRand/Samplify.svg?branch=master)](https://travis-ci.org/BennettRand/Samplify)
 
 A library to keep track of magnitude and unit-aware measurements.
 

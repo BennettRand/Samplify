@@ -48,8 +48,8 @@ class BaseUnits:
 
 class DerivedUnits:
 	Hz = Fraction(BaseUnits._, BaseUnits.s)
-	N = Fraction(BaseUnits.m * BaseUnits.g * BaseUnits.s * BaseUnits.s,
-				 BaseUnits._)
+	N = Fraction(BaseUnits.m * BaseUnits.g,
+				  BaseUnits.s * BaseUnits.s)
 	J = Fraction(N * BaseUnits.m, BaseUnits._)
 	W = Fraction(J, BaseUnits.s)
 	V = Fraction(W, BaseUnits.A * BaseUnits.PF)

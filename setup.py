@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name="samplify",
-	version="0.1.0",
+	version="0.1.1",
 	url="http://github.com/BennettRand/Samplify/",
 	description="Take, save, and manipulate objects that store both maginitude and measurement information.",
 	author="Bennett Rand",
